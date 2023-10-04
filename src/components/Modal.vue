@@ -10,9 +10,7 @@ defineProps<{
 <template>
   <div class="backdrop" @click.self="onClose()">
     <div class="modal">
-      <h3>{{ book?.title }}</h3>
-      <p>{{ book?.author }}</p>
-      <img :src="book?.img" :alt="book?.title" class="img" draggable="false" />
+      <slot></slot>
     </div>
   </div>
 </template>
@@ -31,8 +29,6 @@ defineProps<{
 }
 
 .modal {
-  width: 50%;
-  height: 80%;
   padding: 10px;
   display: flex;
   flex-direction: column;
@@ -40,11 +36,5 @@ defineProps<{
   background-color: #fff;
   border-radius: 10px;
   overflow: hidden;
-}
-
-.img {
-  margin: 10px;
-  object-fit: cover;
-  height: 85%;
 }
 </style>

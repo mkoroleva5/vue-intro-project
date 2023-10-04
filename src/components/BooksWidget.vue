@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed, ref, type Ref } from 'vue'
 import zoomIcon from '@/assets/zoom-in.svg'
-import BookModal from './BookModal.vue'
+import Modal from './Modal.vue'
 
 export type Book = {
   title: string
@@ -76,7 +76,9 @@ const toggleFav = (book: Book) => {
         </button>
       </li>
     </ul>
-    <BookModal v-if="expandedBook" :book="expandedBook" :onClose="handleModalClose" />
+    <Modal v-if="expandedBook" :book="expandedBook" :onClose="handleModalClose">
+      <img :src="expandedBook.img" :alt="expandedBook.title" class="large-img" draggable="false"
+    /></Modal>
   </div>
 </template>
 
@@ -114,6 +116,10 @@ const toggleFav = (book: Book) => {
 .img {
   object-fit: cover;
   width: 70px;
+}
+
+.large-img {
+  height: 85vh;
 }
 .title {
   display: flex;
