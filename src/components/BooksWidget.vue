@@ -42,7 +42,7 @@ const filteredBooks = computed(() =>
 
 const expandedBook = ref<Book | null>(null)
 
-const expandBook = (book: Book) => {
+const handleModalOpen = (book: Book) => {
   expandedBook.value = book
 }
 
@@ -71,7 +71,7 @@ const toggleFav = (book: Book) => {
           <h3>{{ book.title }}</h3>
           <p>{{ book.author }}</p>
         </div>
-        <button class="expand-button" @click.stop="expandBook(book)">
+        <button class="expand-button" @click.stop="handleModalOpen(book)">
           <img :src="zoomIcon" alt="Zoom in" />
         </button>
       </li>
