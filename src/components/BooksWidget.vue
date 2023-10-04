@@ -42,8 +42,7 @@ const filteredBooks = computed(() =>
 
 const expandedBook = ref<Book | null>(null)
 
-const expandBook = (event: MouseEvent, book: Book) => {
-  event.stopPropagation()
+const expandBook = (book: Book) => {
   expandedBook.value = book
 }
 
@@ -72,12 +71,12 @@ const toggleFav = (book: Book) => {
           <h3>{{ book.title }}</h3>
           <p>{{ book.author }}</p>
         </div>
-        <button class="expand-button" @click="(event) => expandBook(event, book)">
+        <button class="expand-button" @click.stop="expandBook(book)">
           <img :src="zoomIcon" alt="Zoom in" />
         </button>
       </li>
     </ul>
-    <BookModal v-show="expandedBook" :book="expandedBook" :onClose="handleModalClose" />
+    <BookModal v-if="expandedBook" :book="expandedBook" :onClose="handleModalClose" />
   </div>
 </template>
 
@@ -88,9 +87,12 @@ const toggleFav = (book: Book) => {
   display: flex;
   flex-direction: column;
   align-items: center;
+  gap: 10px;
 }
 
 .list {
+  width: 100%;
+  max-width: 800px;
   display: flex;
   flex-direction: column;
   gap: 10px;

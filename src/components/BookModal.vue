@@ -8,8 +8,8 @@ defineProps<{
 </script>
 
 <template>
-  <div class="backdrop" @click="onClose()">
-    <div class="modal" @click="(e) => e.stopPropagation()">
+  <div class="backdrop" @click.self="onClose()">
+    <div class="modal">
       <h3>{{ book?.title }}</h3>
       <p>{{ book?.author }}</p>
       <img :src="book?.img" :alt="book?.title" class="img" draggable="false" />
