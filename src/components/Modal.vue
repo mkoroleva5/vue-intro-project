@@ -1,8 +1,5 @@
 <script setup lang="ts">
-import type { Book } from './BooksWidget.vue'
-
 defineProps<{
-  book: Book | null
   onClose: () => void
 }>()
 </script>
