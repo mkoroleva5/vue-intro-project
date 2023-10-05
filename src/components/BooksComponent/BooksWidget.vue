@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed, ref, type Ref } from 'vue'
 import zoomIcon from '@/assets/zoom-in.svg'
-import Modal from './Modal.vue'
+import Modal from '@/components/shared/Modal.vue'
 
 export type Book = {
   title: string
@@ -62,9 +62,8 @@ const toggleFav = (book: Book) => {
 
 <template>
   <div class="wrapper">
-    <a :href="url">Link</a>
-    <ul class="list">
-      <li
+    <div class="books-list">
+      <div
         v-for="book in books"
         :key="book.title"
         :class="{ book, fav: book.isFav }"
@@ -94,8 +93,8 @@ const toggleFav = (book: Book) => {
           <h3>{{ book.title }}</h3>
           <p>{{ book.author }}</p>
         </div>
-      </li>
-    </ul>
+      </div>
+    </div>
     <p v-show="filteredBooks">Favourite books: {{ filteredBooks }}</p>
     <Modal v-if="expandedBook" :onClose="handleModalClose">
       <img :src="expandedBook.img" :alt="expandedBook.title" class="large-image" draggable="false"
@@ -113,11 +112,12 @@ const toggleFav = (book: Book) => {
   gap: 20px;
 }
 
-.list {
+.books-list {
   width: 100%;
   max-width: 800px;
   display: flex;
   gap: 20px;
+  margin: 20px;
   padding: 0;
 }
 
