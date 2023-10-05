@@ -66,7 +66,7 @@ const endGame = (reactionTime: number) => {
 }
 
 .play-button:not(:disabled):hover {
-  background-color: rgb(241, 239, 239);
+  background-color: #fff;
 }
 
 .play-button:disabled {

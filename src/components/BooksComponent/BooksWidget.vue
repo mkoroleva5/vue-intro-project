@@ -10,8 +10,6 @@ export type Book = {
   isFav: boolean
 }
 
-const url = 'https://www.google.com/'
-
 const books: Ref<Book[]> = ref([
   {
     title: 'The Snows of Kilimanjaro',
@@ -128,10 +126,11 @@ const toggleFav = (book: Book) => {
   align-items: center;
   gap: 20px;
   padding: 20px;
-  background-color: #ececec;
+  background-color: #f6f6f6;
   border-radius: 5px;
   cursor: pointer;
   transition: all 0.2s ease-in;
+  box-shadow: 2px 2px 10px #ccc;
 }
 
 .img-button {
@@ -158,7 +157,7 @@ const toggleFav = (book: Book) => {
 }
 
 .fav {
-  background-color: rgb(255, 222, 228);
+  background-color: rgb(255, 225, 233);
 }
 
 .expand-icon {
