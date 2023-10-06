@@ -9,6 +9,8 @@ interface FormState {
   terms: boolean
   skills: string[]
   tempSkill: string
+  isSkillPushed: boolean
+  passwordError: string
 }
 
 const formState: Ref<FormState> = ref({
@@ -17,7 +19,9 @@ const formState: Ref<FormState> = ref({
   role: 'developer',
   terms: false,
   skills: [],
-  tempSkill: ''
+  tempSkill: '',
+  isSkillPushed: false,
+  passwordError: ''
 })
 
 const addSkill = (e: KeyboardEvent | MouseEvent) => {
@@ -27,30 +31,39 @@ const addSkill = (e: KeyboardEvent | MouseEvent) => {
   if ((e instanceof KeyboardEvent && e.key === 'Enter') || e instanceof MouseEvent) {
     if (skill && !skillsArray.includes(skill)) {
       formState.value.skills.push(skill)
+      formState.value.isSkillPushed = true
     }
     formState.value.tempSkill = ''
+    setTimeout(() => (formState.value.isSkillPushed = false), 1000)
   }
 }
 
 const handleSubmit = () => {
-  formState.value = {
-    email: '',
-    password: '',
-    role: 'developer',
-    terms: false,
-    skills: [],
-    tempSkill: ''
+  if (formState.value.password.length < 8) {
+    formState.value.passwordError = 'Password must be at least 8 chars long'
+  } else {
+    formState.value = {
+      email: '',
+      password: '',
+      role: 'developer',
+      terms: false,
+      skills: [],
+      tempSkill: '',
+      isSkillPushed: false,
+      passwordError: ''
+    }
   }
 }
 </script>
 
 <template>
-  <form class="form" @submit.prevent="handleSubmit">
+  <form class="form" @submit.prevent="handleSubmit" @keydown.enter.prevent>
     <label class="label">Email:</label>
     <input class="input" type="email" v-model="formState.email" required />
 
     <label class="label">Password:</label>
     <input class="input" type="password" v-model="formState.password" required />
+    <div v-if="formState.passwordError" class="error">{{ formState.passwordError }}</div>
 
     <label class="label">Role:</label>
     <select class="select" v-model="formState.role">
@@ -87,7 +100,14 @@ const handleSubmit = () => {
     <label class="label">More skills:</label>
     <div class="skills-wrapper">
       <input class="input" type="text" v-model="formState.tempSkill" @keyup="addSkill" />
-      <button type="button" class="enter-button" @click="addSkill">enter</button>
+      <button
+        type="button"
+        class="enter-button"
+        :class="{ pressed: formState.isSkillPushed }"
+        @click="addSkill"
+      >
+        enter
+      </button>
     </div>
 
     <div class="checkboxes">
@@ -122,6 +142,10 @@ const handleSubmit = () => {
   font-weight: bold;
 }
 
+.error {
+  font-size: 12px;
+  color: red;
+}
 .input,
 .select {
   display: block;
@@ -200,11 +224,33 @@ const handleSubmit = () => {
   cursor: pointer;
 }
 
-.enter-button:active {
-  border-width: 1px 1px 2px 1px;
-  height: 17px;
-  top: 13px;
-  bottom: 0;
+.pressed {
+  animation-name: press;
+  animation-duration: 0.3s;
+  animation-iteration-count: 1;
+}
+
+@keyframes press {
+  0% {
+    border-width: 1px 1px 6px 1px;
+    height: 21px;
+    top: 8px;
+    bottom: 0;
+  }
+
+  50% {
+    border-width: 1px 1px 2px 1px;
+    height: 17px;
+    top: 13px;
+    bottom: 0;
+  }
+
+  100% {
+    border-width: 1px 1px 6px 1px;
+    height: 21px;
+    top: 8px;
+    bottom: 0;
+  }
 }
 
 .submit-button {
