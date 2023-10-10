@@ -1,0 +1,22 @@
+{
+  "books": [
+    {
+      "title": "The Snows of Kilimanjaro",
+      "author": "Ernest Hemingway",
+      "img": "../src/assets/snows.jpg",
+      "isFav": true
+    },
+    {
+      "title": "Laughter in the Dark",
+      "author": "Vladimir Nabokov",
+      "img": "../src/assets/laughter.jpg",
+      "isFav": false
+    },
+    {
+      "title": "The Star Rover",
+      "author": "Jack London",
+      "img": "../src/assets/star-rover.jpg",
+      "isFav": false
+    }
+  ]
+}

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, ref, type Ref } from 'vue'
+import { computed, onMounted, ref, type Ref } from 'vue'
 import zoomIcon from '@/assets/zoom-in.svg'
 import Modal from '@/components/shared/Modal.vue'
 
@@ -10,33 +10,24 @@ export type Book = {
   isFav: boolean
 }
 
-const books: Ref<Book[]> = ref([
-  {
-    title: 'The Snows of Kilimanjaro',
-    author: 'Ernest Hemingway',
-    img: '../src/assets/snows.jpg',
-    isFav: true
-  },
-  {
-    title: 'Laughter in the Dark',
-    author: 'Vladimir Nabokov',
-    img: '../src/assets/laughter.jpg',
-    isFav: false
-  },
-  {
-    title: 'The Star Rover',
-    author: 'Jack London',
-    img: '../src/assets/star-rover.jpg',
-    isFav: false
-  }
-])
+let books: Ref<Book[]> = ref([])
 
-const filteredBooks = computed(() =>
-  books.value
-    .filter((book) => book.isFav)
-    .map((book) => book.title)
-    .join(', ')
-)
+onMounted(() => {
+  fetch('http://localhost:3000/books')
+    .then((response) => response.json())
+    .then((data) => (books.value = data))
+    .catch((error) => console.log(error.message))
+})
+
+const filteredBooks = computed(() => {
+  if (books.value.length) {
+    return books.value
+      .filter((book) => book.isFav)
+      .map((book) => book.title)
+      .join(', ')
+  }
+  return null
+})
 
 const expandedBook = ref<Book | null>(null)
 const showButton = ref<Book | null>(null)
@@ -59,7 +50,7 @@ const toggleFav = (book: Book) => {
 </script>
 
 <template>
-  <div class="wrapper">
+  <div v-if="books.length" class="wrapper">
     <div class="books-list">
       <div
         v-for="book in books"
@@ -98,6 +89,7 @@ const toggleFav = (book: Book) => {
       <img :src="expandedBook.img" :alt="expandedBook.title" class="large-image" draggable="false"
     /></Modal>
   </div>
+  <div v-else class="wrapper">Books are loading...</div>
 </template>
 
 <style scoped>
